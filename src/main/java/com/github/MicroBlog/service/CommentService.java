@@ -43,7 +43,7 @@ public class CommentService {
                     comment.setPostId(postId);
                     comment.setType(ContentType.COMMENT);
                     comment.setStatus(ContentStatus.NEW);
-                    commentRepository.saveAndFlush(comment);
+                    commentRepository.save(comment);
                     LOG.info("new comment created by: " + principal.getName());
                 } else {
                     LOG.info(SystemMessage.badRequestError);
@@ -67,7 +67,7 @@ public class CommentService {
                 if (Objects.equals(deletingAccountId, authorAccountId)) {
                     comment.setStatus(ContentStatus.DELETED);
                     comment.setEditionDate(LocalDateTime.now());
-                    commentRepository.saveAndFlush(comment);
+                    commentRepository.save(comment);
                     LOG.info("comment id: " +commentId + " was removed by: " + principal.getName());
                 } else throw new AuthException(SystemMessage.unauthorizedRequestError);
             } else throw new EntityNotFoundException(SystemMessage.commentNotFoundError);
@@ -96,7 +96,7 @@ public class CommentService {
                     comment.setContent(content);
                     comment.setStatus(ContentStatus.EDITED);
                     comment.setEditionDate(LocalDateTime.now());
-                    commentRepository.saveAndFlush(comment);
+                    commentRepository.save(comment);
                     LOG.info("comment id: " +commentId + " was edited by: " + principal.getName());
                 } else throw new AuthException(SystemMessage.unauthorizedRequestError);
             } else throw new EntityNotFoundException(SystemMessage.commentNotFoundError);
@@ -121,7 +121,7 @@ public class CommentService {
                 Comment comment = commentRepository.getOne(commentId);
                 comment.setStatus(ContentStatus.DELETED);
                 comment.setEditionDate(LocalDateTime.now());
-                commentRepository.saveAndFlush(comment);
+                commentRepository.save(comment);
             } else throw new EntityNotFoundException(SystemMessage.commentNotFoundError);
         } catch (EntityNotFoundException notFound) {
             LOG.info(SystemMessage.commentNotFoundError);
@@ -139,7 +139,7 @@ public class CommentService {
                 comment.setContent(content);
                 comment.setStatus(ContentStatus.EDITED);
                 comment.setEditionDate(LocalDateTime.now());
-                commentRepository.saveAndFlush(comment);
+                commentRepository.save(comment);
             } else throw new EntityNotFoundException(SystemMessage.commentNotFoundError);
         } catch (EntityNotFoundException notFound) {
             LOG.info(SystemMessage.commentNotFoundError);

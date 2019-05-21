@@ -42,7 +42,7 @@ public class AccountService {
             account.setRole(AccountRole.USER);
         }
 
-        accountRepository.saveAndFlush(account);
+        accountRepository.save(account);
     }
 
     public List<Account> getUsers() {
@@ -91,7 +91,7 @@ public class AccountService {
             Account userById = findUserById(accountId);
             if (userById != null) {
                 userById.setStatus(AccountStatus.BLOCKED);
-                accountRepository.saveAndFlush(userById);
+                accountRepository.save(userById);
                 LOG.info("Account login: " + userById.getLogin() + " was blocked by admin");
             } else throw new EntityNotFoundException(SystemMessage.userNotFoundError);
         } catch (EntityNotFoundException notFound) {

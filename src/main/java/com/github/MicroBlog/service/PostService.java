@@ -42,7 +42,7 @@ public class PostService {
                 post.setStatus(ContentStatus.NEW);
                 post.setType(ContentType.BLOG_POST);
                 post.setAccountId(accountId);
-                postRepository.saveAndFlush(post);
+                postRepository.save(post);
                 LOG.info(SystemMessage.newBlogPostMsg + principal.getName());
             } else throw new EntityNotFoundException(SystemMessage.userNotFoundError);
         } catch (EntityNotFoundException e) {
@@ -177,14 +177,14 @@ public class PostService {
         post.setContent(content);
         post.setStatus(ContentStatus.EDITED);
         post.setEditionDate(LocalDateTime.now());
-        postRepository.saveAndFlush(post);
+        postRepository.save(post);
     }
 
     private void markPostAsDeleted (Long postId){
         Post deletedPost = postRepository.getOne(postId);
         deletedPost.setEditionDate(LocalDateTime.now());
         deletedPost.setStatus(ContentStatus.DELETED);
-        postRepository.saveAndFlush(deletedPost);
+        postRepository.save(deletedPost);
     }
 
 }
