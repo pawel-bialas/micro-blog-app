@@ -26,7 +26,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().and()
 
                 .authorizeRequests()
-                .antMatchers("/welcome/**", "/register/**","/login/**","/account/**")
+                .antMatchers("/welcome/**", "/register/**","/login/**","/logout/**")
                 .permitAll()
 //                .antMatchers(HttpMethod.PATCH).hasRole("USER")
 //                .antMatchers(HttpMethod.PATCH).hasRole("ADMIN")

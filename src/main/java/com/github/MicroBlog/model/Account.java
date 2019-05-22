@@ -149,4 +149,20 @@ public class Account implements UserDetails {
     public void setRole(AccountRole role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", unigueAccName='" + unigueAccName + '\'' +
+                ", descAccName='" + descAccName + '\'' +
+                ", creationDate=" + creationDate +
+                ", status=" + status +
+                ", type=" + type +
+                ", role=" + role +
+                ", avatarId=" + avatarId +
+                '}';
+    }
 }

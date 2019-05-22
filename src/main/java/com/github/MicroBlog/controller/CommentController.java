@@ -3,13 +3,12 @@ package com.github.MicroBlog.controller;
 import com.github.MicroBlog.model.Comment;
 import com.github.MicroBlog.service.CommentService;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 
-@Controller
+@RestController
 public class CommentController {
 
     private final CommentService commentService;
