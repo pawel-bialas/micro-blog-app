@@ -10,7 +10,10 @@ import java.io.IOException;
 
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        //nothing so far ...
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+        response.sendError(
+                HttpServletResponse.SC_UNAUTHORIZED,
+                "Message to edit from JwtAuthenticationEntryPoint"
+        );
     }
 }

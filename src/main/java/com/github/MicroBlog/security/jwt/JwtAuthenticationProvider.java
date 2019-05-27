@@ -1,19 +1,52 @@
 package com.github.MicroBlog.security.jwt;
 
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.core.Authentication;
+import com.github.MicroBlog.security.jwt.model.JwtAuthenticationToken;
+import com.github.MicroBlog.security.jwt.model.JwtUser;
+import com.github.MicroBlog.security.jwt.model.JwtUserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
-public class JwtAuthenticationProvider implements AuthenticationProvider {
+import java.util.List;
 
+@Component
+public class JwtAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
+
+    private final JwtValidator validator;
+
+    public JwtAuthenticationProvider(JwtValidator validator) {
+        this.validator = validator;
+    }
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        return null;
+    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
+
+    }
+
+    @Override
+    protected UserDetails retrieveUser(String userName, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
+        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) usernamePasswordAuthenticationToken;
+
+        String token = jwtAuthenticationToken.getToken();
+
+        JwtUser jwtUser = validator.validate(token);
+        if (jwtUser == null) {
+            throw new RuntimeException ("JWT token is incorrect");
+        }
+
+        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+                .commaSeparatedStringToAuthorityList(jwtUser.getRole());
+       return new JwtUserDetails(jwtUser.getUserName(), jwtUser.getId(), token, grantedAuthorities);
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return false;
+
+        return (JwtAuthenticationToken.class.isAssignableFrom(aClass));
     }
 }

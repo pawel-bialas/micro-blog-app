@@ -4,6 +4,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +14,12 @@ import java.io.IOException;
 public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessingFilter {
 
 
-    private AuthenticationManager authenticationManager;
-    private JwtSuccessHandler successHandler;
+    protected JwtAuthenticationTokenFilter() {
+        super("/**");
+    }
 
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
+    protected JwtAuthenticationTokenFilter(RequestMatcher requiresAuthenticationRequestMatcher) {
+        super(requiresAuthenticationRequestMatcher);
     }
 
     @Override
@@ -25,15 +27,5 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
         return null;
     }
 
-    public AuthenticationManager getAuthenticationManager() {
-        return authenticationManager;
-    }
 
-    public void setAuthenticationSuccesHandler(JwtSuccessHandler successHandler) {
-        this.successHandler = successHandler;
-    }
-
-    public JwtSuccessHandler getAuthenticationSuccesHandler() {
-        return successHandler;
-    }
 }
