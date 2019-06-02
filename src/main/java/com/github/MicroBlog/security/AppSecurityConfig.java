@@ -16,9 +16,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
+    private UserDetailServiceImpl customUserDetailService;
 
-    public AppSecurityConfig(UserDetailsService userDetailsService) {
+    public AppSecurityConfig(UserDetailsService userDetailsService,
+                             UserDetailServiceImpl customUserDetailService) {
         this.userDetailsService = userDetailsService;
+        this.customUserDetailService = customUserDetailService;
     }
 
     @Override
@@ -28,18 +31,17 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/welcome/**", "/register/**","/login/**","/logout/**")
                 .permitAll()
-//                .antMatchers(HttpMethod.PATCH).hasRole("USER")
-//                .antMatchers(HttpMethod.PATCH).hasRole("ADMIN")
-//                .antMatchers(HttpMethod.DELETE).hasRole("USER")
-//                .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
 
                 .antMatchers("/admin/**")
                 .hasRole("ADMIN")
-
-                .anyRequest()
-                .authenticated()
-
                 .and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(),customUserDetailService))
+
+//                .anyRequest()
+//                .authenticated()
+
+//                .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .invalidateHttpSession(true)
@@ -55,12 +57,13 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(customUserDetailService);
     }
 
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 

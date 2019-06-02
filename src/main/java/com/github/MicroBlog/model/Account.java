@@ -38,6 +38,22 @@ public class Account implements UserDetails {
     private Long avatarId;
 
 
+    public Account(String login, String password, String unigueAccName, String descAccName, LocalDateTime creationDate, AccountStatus status, AccountType type, AccountRole role, Long avatarId) {
+        this.login = login;
+        this.password = password;
+        this.unigueAccName = unigueAccName;
+        this.descAccName = descAccName;
+        this.creationDate = creationDate;
+        this.status = status;
+        this.type = type;
+        this.role = role;
+        this.avatarId = avatarId;
+    }
+
+    public Account () {
+
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
