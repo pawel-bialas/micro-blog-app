@@ -32,21 +32,21 @@ public class AccountController {
 
 
 
-    @GetMapping(path = "/users/user-id/{id}", produces = "/application/json")
+    @GetMapping(path = "/users/user-id/{id}")
     @Secured("ROLE_ADMIN")
     @ResponseStatus (HttpStatus.OK)
     public Account findUserById (@PathVariable("id") Long id) {
         return accountService.findUserById(id);
     }
 
-    @GetMapping(path = "/users/user-login/{login}", produces = "/application/json")
+    @GetMapping(path = "/users/user-login/{login}")
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.OK)
     public Account findUserByLogin (@PathVariable ("login") String login) {
         return accountService.findUserByLogin(login);
     }
 
-    @GetMapping(path = "/users/user-uniqe/{unique}", produces = "/application/json")
+    @GetMapping(path = "/users/user-uniqe/{unique}")
     @RolesAllowed({ "ROLE_USER", "ROLE_ADMIN" })
     @ResponseStatus(HttpStatus.OK)
     public Account findByUniqueName(@PathVariable ("unique") String uniqueAccName) {
