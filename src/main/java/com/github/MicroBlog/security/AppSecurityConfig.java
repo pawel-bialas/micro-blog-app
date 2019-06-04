@@ -1,6 +1,7 @@
 package com.github.MicroBlog.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,11 +18,14 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
     private UserDetailServiceImpl customUserDetailService;
+    private JWTAuthenticationEntryPoint entryPoint;
 
     public AppSecurityConfig(UserDetailsService userDetailsService,
-                             UserDetailServiceImpl customUserDetailService) {
+                             UserDetailServiceImpl customUserDetailService,
+                             JWTAuthenticationEntryPoint entryPoint) {
         this.userDetailsService = userDetailsService;
         this.customUserDetailService = customUserDetailService;
+        this.entryPoint = entryPoint;
     }
 
     @Override
@@ -57,7 +61,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailService);
+        auth.userDetailsService(this.customUserDetailService).passwordEncoder(passwordEncoder());
     }
 
 
@@ -65,6 +69,12 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
 }

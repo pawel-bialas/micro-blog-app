@@ -2,6 +2,7 @@ package com.github.MicroBlog.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.MicroBlog.model.Account;
+import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,6 +52,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
         ZonedDateTime expirationTimeUTC = ZonedDateTime.now(ZoneOffset.UTC).plus(EXPIRATION_TIME, ChronoUnit.SECONDS);
+
+
         String token = Jwts.builder()
                 .setSubject(((Account)authResult.getPrincipal()).getUsername())
                 .setExpiration(Date.from(expirationTimeUTC.toInstant()))
