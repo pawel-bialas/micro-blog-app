@@ -11,5 +11,6 @@ public class SystemMessage {
 
 
     public final static String newBlogPostMsg = "new blogPost created by user: ";
+    public final static String authenticationFailed = "Authentication failed";
 
 }

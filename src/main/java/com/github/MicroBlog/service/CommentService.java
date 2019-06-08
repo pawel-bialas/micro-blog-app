@@ -7,6 +7,7 @@ import com.github.MicroBlog.model.ContentType;
 import com.github.MicroBlog.repository.CommentRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
+@Transactional
 public class CommentService {
 
     private final CommentRepository commentRepository;

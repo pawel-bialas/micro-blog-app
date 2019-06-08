@@ -16,12 +16,12 @@ import java.io.IOException;
 
 import static com.github.MicroBlog.security.SecurityConstants.*;
 
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final UserDetailServiceImpl userDetailService;
 
 
-    public JWTAuthorizationFilter(AuthenticationManager authenticationManager,
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager,
                                   UserDetailServiceImpl userDetailService) {
         super(authenticationManager);
         this.userDetailService = userDetailService;
