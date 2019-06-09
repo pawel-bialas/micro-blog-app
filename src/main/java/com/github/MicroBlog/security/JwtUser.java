@@ -1,7 +1,6 @@
 package com.github.MicroBlog.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.MicroBlog.model.Account;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

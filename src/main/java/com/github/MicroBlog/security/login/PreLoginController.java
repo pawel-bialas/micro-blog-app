@@ -1,19 +1,17 @@
 package com.github.MicroBlog.security.login;
 
 
-import com.github.MicroBlog.model.Account;
-import com.github.MicroBlog.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.github.MicroBlog.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PreLoginController {
 
-    private final AccountService accountService;
+    private final UserService userService;
 
-    public PreLoginController(AccountService accountService) {
-        this.accountService = accountService;
+    public PreLoginController(UserService userService) {
+        this.userService = userService;
     }
 
 

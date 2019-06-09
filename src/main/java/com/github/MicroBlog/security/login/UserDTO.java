@@ -1,13 +1,11 @@
 package com.github.MicroBlog.security.login;
 
-import com.github.MicroBlog.model.Account;
-
-public class AccountDTO {
+public class UserDTO {
 
     private String userLogin;
     private String token;
 
-    public AccountDTO(String userLogin, String token) {
+    public UserDTO(String userLogin, String token) {
         this.userLogin = userLogin;
         this.token = token;
     }

@@ -1,11 +1,11 @@
 package com.github.MicroBlog.service;
 
 import com.github.MicroBlog.commons.SystemMessage;
-import com.github.MicroBlog.model.Account;
+import com.github.MicroBlog.model.User;
 import com.github.MicroBlog.model.ContentStatus;
 import com.github.MicroBlog.model.ContentType;
 import com.github.MicroBlog.model.Post;
-import com.github.MicroBlog.repository.AccountRepository;
+import com.github.MicroBlog.repository.UserRepository;
 import com.github.MicroBlog.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,19 +27,19 @@ import java.util.logging.Logger;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
 
     private Logger LOG = Logger.getLogger(PostService.class.getName());
 
     @Autowired
-    public PostService(PostRepository postRepository, AccountRepository accountRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
-        this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
     }
 
     public void saveNewPost(Post post, Principal principal) {
         try {
-            Long accountId = accountRepository.findByUnigueAccName(principal.getName()).get().getId();
+            Long accountId = userRepository.findByUnigueAccName(principal.getName()).get().getId();
             if (accountId != null) {
                 post.setStatus(ContentStatus.NEW);
                 post.setType(ContentType.BLOG_POST);
@@ -63,7 +63,7 @@ public class PostService {
 
     public void deletePost(Long postId, Principal principal) {
         try {
-            Long deletingAccountId = accountRepository.findByUnigueAccName(principal.getName()).get().getId();
+            Long deletingAccountId = userRepository.findByUnigueAccName(principal.getName()).get().getId();
             Long authorAccountId = postRepository.findById(postId).get().getAccountId();
             Long currentPostId = postRepository.findById(postId).get().getId();
             if (Objects.equals(authorAccountId, deletingAccountId)) {
@@ -120,7 +120,7 @@ public class PostService {
             Long currentPost = postRepository.getOne(postId).getId();
             if (currentPost != null) {
                 Long authorAccountId = postRepository.getOne(currentPost).getAccountId();
-                Long editorAccountId = accountRepository.findByUnigueAccName(principal.getName()).get().getId();
+                Long editorAccountId = userRepository.findByUnigueAccName(principal.getName()).get().getId();
                 if (Objects.equals(editorAccountId, authorAccountId)) {
                     editPostContent(postId,content);
                     LOG.info("post: " + currentPost + " was edited by: " + principal.getName());
@@ -142,7 +142,7 @@ public class PostService {
 
     public ArrayList<Post> findPostsByUserLogin(String login) {
         try {
-            Optional<Account> byLogin = accountRepository.findByLogin(login);
+            Optional<User> byLogin = userRepository.findByLogin(login);
             if (byLogin.isPresent()) {
                 Long userId = byLogin.get().getId();
                 return (ArrayList<Post>) postRepository.findByAccountId(userId);

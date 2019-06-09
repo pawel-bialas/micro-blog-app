@@ -1,8 +1,8 @@
 package com.github.MicroBlog.controller;
 
-import com.github.MicroBlog.model.Account;
+import com.github.MicroBlog.model.User;
 import com.github.MicroBlog.model.Post;
-import com.github.MicroBlog.service.AccountService;
+import com.github.MicroBlog.service.UserService;
 import com.github.MicroBlog.service.CommentService;
 import com.github.MicroBlog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +17,17 @@ import java.util.List;
 @RestController
 public class AdminController {
 
-    private final AccountService accountService;
+    private final UserService userService;
     private final PostService postService;
     private final CommentService commentService;
 
     @Autowired
     public AdminController(
-            AccountService accountService,
+            UserService userService,
             PostService postService,
             CommentService commentService
     ) {
-        this.accountService = accountService;
+        this.userService = userService;
         this.postService = postService;
         this.commentService = commentService;
     }
@@ -36,14 +36,14 @@ public class AdminController {
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@PathVariable("id") Long id) {
-        accountService.adminDeleteUser(id);
+        userService.adminDeleteUser(id);
     }
 
     @GetMapping(path = "/admin/users/all")
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.OK)
-    public List<Account> adminGetAllUsers() {
-        return accountService.getUsers();
+    public List<User> adminGetAllUsers() {
+        return userService.getUsers();
     }
 
     @GetMapping(path = "/admin/find-all-posts")

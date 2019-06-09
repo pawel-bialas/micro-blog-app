@@ -1,6 +1,6 @@
 package com.github.MicroBlog.model;
 
-public enum  AccountStatus {
+public enum UserStatus {
 
     ACTIVE,
     INACTIVE,

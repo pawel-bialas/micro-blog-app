@@ -1,4 +1,4 @@
 package com.github.MicroBlog.model;
 
-public class AccountAvatar {
+public class UserAvatar {
 }

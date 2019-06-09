@@ -1,6 +1,6 @@
 package com.github.MicroBlog.model;
 
-public enum  AccountType {
+public enum UserType {
 
     PUBLIC,
     PRIVATE

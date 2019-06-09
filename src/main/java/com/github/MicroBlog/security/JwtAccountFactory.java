@@ -1,6 +1,6 @@
 package com.github.MicroBlog.security;
 
-import com.github.MicroBlog.model.Account;
+import com.github.MicroBlog.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class JwtAccountFactory {
-    public static JwtUser create(Account account) {
+    public static JwtUser create(User user) {
         return new JwtUser(
-                account.getId(),
-                account.getLogin(),
-                account.getPassword(),
+                user.getId(),
+                user.getLogin(),
+                user.getPassword(),
                 mapToGrantedAuthorities(new ArrayList<String>(
-                        Arrays.asList("ROLE" + account.getRole()))),
-                        account.isEnabled());
+                        Arrays.asList("ROLE" + user.getRole()))),
+                        user.isEnabled());
 
     }
 

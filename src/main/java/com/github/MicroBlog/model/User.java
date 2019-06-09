@@ -15,7 +15,7 @@ import java.util.Collections;
 @Entity
 @Table(name = "Users")
 @Where(clause = "status <> 'BLOCKED'" )
-public class Account implements UserDetails {
+public class User implements UserDetails {
 
     private static final long serialVersionUID = 641597340859104987L;
     @Id
@@ -31,15 +31,23 @@ public class Account implements UserDetails {
     @CreationTimestamp
     private LocalDateTime creationDate;
     @Enumerated(EnumType.STRING)
-    private AccountStatus status;
+    private UserStatus status;
     @Enumerated(EnumType.STRING)
-    private AccountType type;
+    private UserType type;
     @Enumerated(EnumType.STRING)
-    private AccountRole role;
+    private UserRole role;
     private Long avatarId;
 
 
-    public Account(String login, String password, String unigueAccName, String descAccName, LocalDateTime creationDate, AccountStatus status, AccountType type, AccountRole role, Long avatarId) {
+    public User(String login,
+                String password,
+                String unigueAccName,
+                String descAccName,
+                LocalDateTime creationDate,
+                UserStatus status,
+                UserType type,
+                UserRole role,
+                Long avatarId) {
         this.login = login;
         this.password = password;
         this.unigueAccName = unigueAccName;
@@ -51,7 +59,7 @@ public class Account implements UserDetails {
         this.avatarId = avatarId;
     }
 
-    public Account () {
+    public User() {
 
     }
 
@@ -78,7 +86,7 @@ public class Account implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.status != AccountStatus.BLOCKED;
+        return this.status != UserStatus.BLOCKED;
     }
 
     @Override
@@ -88,7 +96,7 @@ public class Account implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.status == AccountStatus.ACTIVE;
+        return this.status == UserStatus.ACTIVE;
     }
 
     public Long getId() {
@@ -135,19 +143,19 @@ public class Account implements UserDetails {
         this.creationDate = creationDate;
     }
 
-    public AccountStatus getStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setStatus(AccountStatus status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 
-    public AccountType getType() {
+    public UserType getType() {
         return type;
     }
 
-    public void setType(AccountType type) {
+    public void setType(UserType type) {
         this.type = type;
     }
 
@@ -159,17 +167,17 @@ public class Account implements UserDetails {
         this.avatarId = avatarId;
     }
 
-    public AccountRole getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(AccountRole role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
     @Override
     public String toString() {
-        return "Account{" +
+        return "User{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +

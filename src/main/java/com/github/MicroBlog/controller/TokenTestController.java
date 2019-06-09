@@ -1,9 +1,8 @@
 package com.github.MicroBlog.controller;
 
 
-import com.github.MicroBlog.model.Account;
-import com.github.MicroBlog.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.github.MicroBlog.model.User;
+import com.github.MicroBlog.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,22 +16,22 @@ import java.util.List;
 public class TokenTestController {
 
 
-    private final AccountService accountService;
+    private final UserService userService;
 
-    public TokenTestController(AccountService accountService) {
-        this.accountService = accountService;
+    public TokenTestController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping(value = "/test1")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<Account>getAllUsers () {
-        return accountService.getUsers();
+    public List<User>getAllUsers () {
+        return userService.getUsers();
     }
 
     @GetMapping(value = "/test2")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<Account> getUser (Principal principal) {
-        Account account = accountService.findUserByLogin(principal.getName());
-        return new ResponseEntity<Account>(account,HttpStatus.OK);
+    public ResponseEntity<User> getUser (Principal principal) {
+        User user = userService.findUserByLogin(principal.getName());
+        return new ResponseEntity<User>(user,HttpStatus.OK);
     }
 }

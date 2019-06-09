@@ -23,21 +23,21 @@ import java.util.logging.Logger;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final AccountService accountService;
+    private final UserService userService;
     private final PostService postService;
 
     private Logger LOG = Logger.getLogger(CommentService.class.getName());
 
-    public CommentService(CommentRepository commentRepository, AccountService accountService, PostService postService) {
+    public CommentService(CommentRepository commentRepository, UserService userService, PostService postService) {
         this.commentRepository = commentRepository;
-        this.accountService = accountService;
+        this.userService = userService;
         this.postService = postService;
     }
 
 
     public void saveNewComment(Comment comment, Long postId, Principal principal) {
         try {
-            Long accountId = accountService.findUserByUniqueAccName(principal.getName()).getId();
+            Long accountId = userService.findUserByUniqueAccName(principal.getName()).getId();
             Long postById = postService.findPostById(postId).getId();
             if (postById != null) {
                 if (accountId != null) {
@@ -64,7 +64,7 @@ public class CommentService {
         try {
             if (commentRepository.findById(commentId).isPresent()) {
                 Comment comment = commentRepository.getOne(commentId);
-                Long deletingAccountId = accountService.findUserByUniqueAccName(principal.getName()).getId();
+                Long deletingAccountId = userService.findUserByUniqueAccName(principal.getName()).getId();
                 Long authorAccountId = comment.getAccountId();
                 if (Objects.equals(deletingAccountId, authorAccountId)) {
                     comment.setStatus(ContentStatus.DELETED);
@@ -92,7 +92,7 @@ public class CommentService {
         try {
             if (commentRepository.findById(commentId).isPresent()) {
                 Comment comment = commentRepository.getOne(commentId);
-                Long edittingAccountId = accountService.findUserByUniqueAccName(principal.getName()).getId();
+                Long edittingAccountId = userService.findUserByUniqueAccName(principal.getName()).getId();
                 Long authorAccountId = comment.getAccountId();
                 if (Objects.equals(edittingAccountId,authorAccountId)){
                     comment.setContent(content);
