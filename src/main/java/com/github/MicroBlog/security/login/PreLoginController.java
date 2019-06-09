@@ -16,10 +16,7 @@ public class PreLoginController {
         this.accountService = accountService;
     }
 
-    @PostMapping(path = "/login")
-    public void login () {
 
-    }
 
     @PostMapping (path = "/logout")
     public void logout () {

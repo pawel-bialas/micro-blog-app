@@ -14,7 +14,6 @@ public class JwtUser implements UserDetails {
     private Long id;
     private String userName;
     private String password;
-    private Account account;
     private final Collection <? extends GrantedAuthority> authorities;
     private final boolean enabled;
 
@@ -59,10 +58,6 @@ public class JwtUser implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-    }
-
-    public Account getAccount() {
-        return account;
     }
 
     @Override
